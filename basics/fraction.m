@@ -2,8 +2,7 @@
 #import <Foundation/Foundation.h>
 
 //———————— Interface ————————
-@interface Fraction : NSObject
-{
+@interface Fraction : NSObject {
   int numerator;
   int denominator;
 }
@@ -21,7 +20,7 @@
   NSLog(@"This is a fraction with a value of %d/%d", numerator, denominator);
 }
 
-- (void)setNumerator:(int)n {
+- (void)setNumerator:() {
   numerator = n;
 }
 

@@ -5,8 +5,13 @@ int main(void) {
 
   NSLog(@"Hello, World!");
 
+  // https://developer.apple.com/documentation/foundation/nsstring?language=objc
   NSString *variableString = @"Hello, World";
-  NSLog(@"Say %@!", variableString);
+  NSString* myString = [[NSString alloc]initWithFormat:@"here's a number: %i", 123];
+  NSString* makeItUp = [variableString uppercaseString]; 
+  NSLog(@"String: %@!", variableString);
+  NSLog(@"String: %@!", myString);
+  NSLog(@"String: %@!", makeItUp);
 
   NSNumber *myBirthdayYear = @1990;
   NSLog(@"Number %@!", myBirthdayYear);
@@ -22,5 +27,11 @@ int main(void) {
   NSDictionary *appRatings = @{@"AngryFowl": @3, @"Lettertouch": @5};
   NSLog(@"%@", appRatings[@"AngryFowl"]);
 
+  // `blocks`
+  void (^someCode)() = ^{
+    NSLog(@"Block `someCode` is executed");
+  };
+
+  someCode();
   return 0;
 }
