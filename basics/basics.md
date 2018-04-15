@@ -1,8 +1,9 @@
 # Hello World
 
-Create an empty file called `hello_world.m`
-Try to compile it with `> gcc hello_world.m -o hello_world` and get the error:
-```
+Create an empty file called `hello_world.m`. Try to compile it with,
+`$ gcc hello_world.m -o hello_world` and get the error:
+
+```sh
 Undefined symbols for architecture x86_64:
   "_main", referenced from:
     implicit entry/start for main executable
@@ -10,7 +11,9 @@ ld: symbol(s) not found for architecture x86_64
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 
-This because every C program needs an [entry point](https://en.wikipedia.org/wiki/Entry_point). As with plain old C programs, the main() function serves as the root of an Objective-C application.
+This because every C program needs an [entry point](https://en.wikipedia.org/wiki/Entry_point).
+As with plain old C programs, the main() function serves as the root of an
+Objective-C application.
 
 ```objc
 int main() {}
@@ -27,8 +30,7 @@ int main(int argc, const char * argv[]) {}
 ```c
 #include <stdio.h>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   puts("Hello world.");
   return 0;
 }
@@ -40,15 +42,16 @@ They will both produce the same result.
 ```objc
 #include <stdio.h>
 
-int main()
-{
+int main() {
   NSLog(@"Hello world.");
   puts("Hello world.");
   return 0;
 }
 ```
+
 When trying to compile the code about the compiler will complien with the follwing error.
-```
+
+```sh
 ns_hello.m:6:3: warning: implicitly declaring library function 'NSLog' with type 'void (id, ...)'
   NSLog(@"Hello world.");
   ^
@@ -69,18 +72,21 @@ Let's import `Foundation` and try to compile it again.
 #import <Foundation/Foundation.h>
 #include <stdio.h>
 
-int main()
-{
+int main() {
   NSLog(@"Hello world.");
   puts("Hello world.");
   return 0;
 }
 ```
+
 Run
+
+```sh
+$ gcc ns_hello.m -o ns_hello
 ```
-basics > gcc ns_hello.m -o ns_hello
-```
+
 and the compiler complains again
+
 ```
 Undefined symbols for architecture x86_64:
   "_NSLog", referenced from:

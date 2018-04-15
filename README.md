@@ -34,7 +34,7 @@ NSLog(@"%@", appRatings[@"AngryFowl"]);
 ### Sending messages
 "Sending a message" is sometimes referred to as "calling a method".
 ```objc
-[objectName messageName];
+// [objectName messageName];
 
 NSArray *foods = @[@"tacos", @"burgers"];
 

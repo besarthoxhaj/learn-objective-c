@@ -50,7 +50,6 @@ int main (int argc, const char * argv[]) {
 
   // Clear up memory
   [myFraction release];
-
   [pool drain];
   return 0;
 }

@@ -1,0 +1,20 @@
+{
+  "name": "learn-objective-c",
+  "version": "1.0.0",
+  "description": "Learn Obj-C",
+  "scripts": {
+    "start": "node scripts/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/besarthoxhaj/learn-objective-c.git"
+  },
+  "author": "Bes",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "node-notifier": "^5.2.1",
+    "nodemon": "^1.17.3"
+  }
+}
