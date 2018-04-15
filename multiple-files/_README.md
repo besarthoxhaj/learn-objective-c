@@ -6,3 +6,7 @@ Run with:
 # gcc -o <output_path> [<inputs>,...]
 gcc -o ./build/Main multiple-files/Main.m multiple-files/Message.m -framework Foundation
 ```
+
+## Resources
+
+- https://stackoverflow.com/questions/5550717/c-header-files-good-practice
