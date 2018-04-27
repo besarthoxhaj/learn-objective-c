@@ -3,9 +3,9 @@
 const fs = require('fs');
 
 module.exports = {
-
+  parseFile
 };
 
-function parseHeaders(filePath) {
-  const fileString = fs.readFileSync(filePath);
+function parseFile(fileContent) {
+  return true;
 }
