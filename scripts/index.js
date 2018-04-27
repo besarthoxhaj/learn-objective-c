@@ -3,7 +3,7 @@
  * - tries compile them
  * - copies them in `/build` folder
  * - runs them
- * 
+ *
  * NOTE: Interestingly, node child process `exec` returns the log from `NSLog`
  * into stderr.
  */
@@ -14,6 +14,7 @@ const nodemon = require('nodemon');
 const notifier = require('node-notifier');
 const { exec } = require('child_process');
 const chalk = require('chalk');
+const parser = require('./parser');
 
 const FILE_EXT = 'm c';
 

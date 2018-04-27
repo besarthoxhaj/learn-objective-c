@@ -16,5 +16,8 @@
     "chalk": "^2.3.2",
     "node-notifier": "^5.2.1",
     "nodemon": "^1.17.3"
+  },
+  "devDependencies": {
+    "tape": "^4.9.0"
   }
 }
