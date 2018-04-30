@@ -10,13 +10,16 @@
 
 'use strict';
 
+const fs = require('fs-extra');
 const nodemon = require('nodemon');
 const notifier = require('node-notifier');
 const { exec } = require('child_process');
 const chalk = require('chalk');
-const parser = require('./parser');
 
-const FILE_EXT = 'm c';
+const parser = require('./parser');
+const utils = require('./utils');
+
+const FILE_EXT = 'm c h';
 
 nodemon({
   script: './scripts/_noop.js',
@@ -24,35 +27,36 @@ nodemon({
   ignore: './build',
 }).on('start', () => {
   // process started correctly
-  clearTerminal();
+  // clearTerminal();
   console.log(chalk.green('Watching...'));
 }).on('restart', (filesChanged) => {
 
-  clearTerminal();
+  // clearTerminal();
+  const buildPath = './.build';
   const basePath = process.cwd();
   const fileName = filesChanged[0].split('/').pop();
   const filePath = filesChanged[0].split(basePath)[1];
+  const fileDir = filesChanged[0].split('/').slice(0,-1).join('/');
   const fileWithNoExtension = fileName.split('.').slice(0,-1).join('.');
 
-  const cmds = [
-    'rm -Rf build',
-    'mkdir build',
-    `gcc -framework Foundation ${filesChanged[0]} -o ./build/${fileWithNoExtension}`,
-    `./build/${fileWithNoExtension}`
-  ].join(' && ');
+  let buildCmd, execCmd;
 
-  exec(cmds, (err, stout, stderr) => {
-    console.log(chalk.green(`COMPILING ${filePath}`));
-    if (err) {
-      console.log(chalk.red('Error:\n'));
-      console.log(stderr);
-      return;
-    }
-    console.log(chalk.green(`SUCCESS ${filePath}\n`));
-    console.log(stout + '\n');
-    console.log(stderr + '\n');
-  });
+  if(utils.isMultiFile(fileDir)) {
+    buildCmd = `gcc -o ${buildPath}/main ${utils.getMainFile(fileDir)}`;
+    buildCmd = buildCmd  + ' ' + utils.buildLinkerCommand(fileDir);
+    buildCmd = buildCmd + ' ' + '-framework Foundation';
+    execCmd = `${buildPath}/main`;
+  } else {
+    buildCmd = `gcc -framework Foundation ${filesChanged[0]} -o ${buildPath}/${fileWithNoExtension}`;
+    execCmd = `${buildPath}/${fileWithNoExtension}`;
+  }
 
+  fs.removeSync(buildPath);
+  fs.mkdirSync(buildPath);
+
+  const cmds = [ buildCmd, execCmd ].join(' && ');
+  //
+  runCmd({cmds, filePath});
 }).on('crash', () => {
   notifier.notify('Faild error');
 }).on('exit', () => {
@@ -67,4 +71,25 @@ function clearTerminal() {
     process.stdout.write('\u001b[1;1H');
     process.stdout.write('\u001b[3J');
   }
+}
+
+/**
+ * [runCmd description]
+ * @param  {[type]} cmds     [description]
+ * @param  {[type]} filePath [description]
+ * @return {[type]}          [description]
+ */
+function runCmd({cmds, filePath}) {
+  console.log(`cmds`, cmds);
+  exec(cmds, (err, stout, stderr) => {
+    console.log(chalk.green(`COMPILING ${filePath}`));
+    if (err) {
+      console.log(chalk.red('Error:\n'));
+      console.log(stderr);
+      return;
+    }
+    console.log(chalk.green(`SUCCESS ${filePath}\n`));
+    console.log(stout + '\n');
+    console.log(stderr + '\n');
+  });
 }
