@@ -32,7 +32,7 @@ nodemon({
 }).on('restart', (filesChanged) => {
 
   // clearTerminal();
-  const buildPath = './.build';
+  const buildPath = './build';
   const basePath = process.cwd();
   const fileName = filesChanged[0].split('/').pop();
   const filePath = filesChanged[0].split(basePath)[1];
@@ -47,7 +47,20 @@ nodemon({
     buildCmd = buildCmd + ' ' + '-framework Foundation';
     execCmd = `${buildPath}/main`;
   } else {
-    buildCmd = `gcc -framework Foundation ${filesChanged[0]} -o ${buildPath}/${fileWithNoExtension}`;
+    buildCmd = [
+      'gcc',
+      `${filesChanged[0]} -o ${buildPath}/${fileWithNoExtension}`,
+      // set the frameworks we need
+      '-framework UIKit',
+      '-framework Foundation',
+      // add frameworks paths
+      '-F/Library/Frameworks',
+      '-F/System/Library/Frameworks',
+      '-F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks',
+      '-F/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks',
+      // no warnings
+      '-w',
+    ].join(' ');
     execCmd = `${buildPath}/${fileWithNoExtension}`;
   }
 
